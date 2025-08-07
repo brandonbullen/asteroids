@@ -14,10 +14,16 @@ def main():
 
     # Create our game clock.
     clock = pygame.time.Clock()
-    dt = 0
+
+    # Create our groups
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
 
     # Create our player.
+    Player.containers = (updatable, drawable)
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    dt = 0
 
     # Begin game loop
     while True:
@@ -26,11 +32,14 @@ def main():
             if event.type == pygame.QUIT:
                 return
         
+        # First this we want to do is update the player?
+        updatable.update(dt)
+        
         # Set the background.
         screen.fill('black')
-    
         # Draw our player every frame.
-        player.draw(screen)
+        for obj in drawable:
+            obj.draw(screen)
 
         # Refresh display
         pygame.display.flip()
